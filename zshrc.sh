@@ -30,7 +30,7 @@ function preexec_update_git_vars() {
 }
 
 function precmd_update_git_vars() {
-    if [ -n "$__EXECUTED_GIT_COMMAND" ] || [ ! -n "$ZSH_THEME_GIT_PROMPT_CACHE" ]; then
+    if [ -n "$__EXECUTED_GIT_COMMAND" ] ; then
         update_current_git_vars
         unset __EXECUTED_GIT_COMMAND
     fi
@@ -51,7 +51,7 @@ function update_current_git_vars() {
         local gitstatus="$__GIT_PROMPT_DIR/dist/build/gitstatus/gitstatus"
         _GIT_STATUS=`${gitstatus}`
     fi
-     __CURRENT_GIT_STATUS=("${(@s: :)_GIT_STATUS}")
+    __CURRENT_GIT_STATUS=("${(@s: :)_GIT_STATUS}")
 	GIT_BRANCH=$__CURRENT_GIT_STATUS[1]
 	GIT_AHEAD=$__CURRENT_GIT_STATUS[2]
 	GIT_BEHIND=$__CURRENT_GIT_STATUS[3]
@@ -63,7 +63,7 @@ function update_current_git_vars() {
 
 
 git_super_status() {
-	precmd_update_git_vars
+    precmd_update_git_vars
     if [ -n "$__CURRENT_GIT_STATUS" ]; then
 	  STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$ZSH_THEME_GIT_PROMPT_BRANCH$GIT_BRANCH%{${reset_color}%}"
 	  if [ "$GIT_BEHIND" -ne "0" ]; then
@@ -94,8 +94,8 @@ git_super_status() {
 }
 
 # Default values for the appearance of the prompt. Configure at will.
-ZSH_THEME_GIT_PROMPT_PREFIX=" ("
-ZSH_THEME_GIT_PROMPT_SUFFIX=")"
+ZSH_THEME_GIT_PROMPT_PREFIX="("
+ZSH_THEME_GIT_PROMPT_SUFFIX=") "
 ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
 ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[magenta]%}"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{● %G%}"
